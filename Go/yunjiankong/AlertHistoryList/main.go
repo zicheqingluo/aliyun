@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	client, err := cms.NewClientWithAccessKey("cn-beijing", "LTAI6GkrOCY5TAnV", "RB43X4Es2yF2XHMcNpY4qcOgzbsIUj")
+	client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 
 	request := cms.CreateDescribeAlertHistoryListRequest()
 	request.Scheme = "https"

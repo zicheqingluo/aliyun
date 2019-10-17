@@ -28,7 +28,7 @@ func createListen() {
 
 
 func main() {
-	client, err := slb.NewClientWithAccessKey("cn-beijing", "LTAI4FxeXTRSziZoh9LzZ8VX", "o3Xb4LefYmiDhoiSNYN14ExHGNTRk8")
+	client, err := slb.NewClientWithAccessKey("cn-beijing", "", "")
 
 	request := slb.CreateCreateLoadBalancerTCPListenerRequest()
 	request.Scheme = "https"
