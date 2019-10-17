@@ -64,7 +64,7 @@ func main() {
 		
 
 	}
-	fmt.Printf("%v",data)
+	fmt.Printf("%#v",data)
 	
 	
 
