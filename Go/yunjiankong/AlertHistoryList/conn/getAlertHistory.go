@@ -18,8 +18,8 @@ func GetHistoryPageSize() int{
 	client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 	request := cms.CreateDescribeAlertHistoryListRequest()
 	request.Scheme = "https"
-	request.StartTime = "1571201532000"
-	request.EndTime = "1571287932000"
+	request.StartTime = "1567267200000"
+	request.EndTime = "1569859200000"
 	//request.EndTime = "1571287932000"
 	request.PageSize = requests.NewInteger(1)
 	
@@ -34,10 +34,10 @@ func GetHistoryPageSize() int{
 	  pageC := pageSize/100
 	  pageY := pageSize/100
 	  if pageY > 0{
-		  pageC = pageC + 2
+		  pageC++
 	  }
 
-	  fmt.Printf("page:%v 报价总数：%v \n",pageC,pageSize)
+	  fmt.Printf("页数:%v 报警总数：%v \n",pageC,pageSize)
 	  return pageC
 	  
 	 
@@ -47,19 +47,21 @@ func GetHistoryPageSize() int{
 func GetHistoryData(pageSize int) {
 
 	defer close(alertChan)
-	for i:=0;i<pageSize;i++ {
+	for i:=1;i<=pageSize;i++ {
 		client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 		request := cms.CreateDescribeAlertHistoryListRequest()
 		request.Scheme = "https"
-		request.StartTime = "1571201532000"
-		request.EndTime = "1571287932000"
+		request.StartTime = "1567267200000"
+		request.EndTime = "1569859200000"
 		//request.EndTime = "1571287932000"
+		request.Page = requests.NewInteger(i)
 		request.PageSize = requests.NewInteger(100)
+		//request.Namespace = "acs_rds"   //只查看rds
 		response, err := client.DescribeAlertHistoryList(request)
 			if err != nil {
 				fmt.Print(err.Error())
 			}
-        //fmt.Println("返回：",response)
+        //fmt.Println("原始数据：",response)
 		//2.将数据发送进入通道	
 		
 		for _,va := range response.AlarmHistoryList.AlarmHistory {

@@ -7,11 +7,11 @@ import (
 
 type projectInfo struct {
 	AlertNum	int
-	RuleName	[]string
+	RuleName	*map[string]int
 }
 var data map[string]projectInfo
 
-//DataRecv 接收数据并处理
+//DataRecv 接收数据并格式化
 func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 	data = make(map[string]projectInfo)
 
@@ -20,14 +20,28 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 		//fmt.Println(va)
 		namespace := va.Namespace   //产品名称
 		rulename := va.RuleName   //报警规则
-		d1 := projectInfo{
+		var d1 projectInfo
+		 
+		ruleCount := make(map[string]int)
+		ruleCount[rulename]=1 
+		d1 = projectInfo{
 			AlertNum: 1,
-			RuleName: []string{rulename},
+			RuleName: &ruleCount,
 		}
-		v, ok := data[namespace]
+		
+		
+		v, ok := data[namespace]  //是否存在这个key
 		if ok{
 			v.AlertNum ++
-			v.RuleName = append(v.RuleName,rulename)
+			//v.RuleName = append(v.RuleName,rulename)
+			ruleC := *v.RuleName
+			_,ok := ruleC[rulename]
+			if ok{
+				ruleC[rulename]++
+			}else {
+				ruleC[rulename]=1
+			}
+			v.RuleName = & ruleC
 			data[namespace] = v	
 		}else {
 			data[namespace] = d1
@@ -38,4 +52,8 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 		
 	}
 	return data
+}
+
+func DataCompute() {
+
 }
