@@ -15,7 +15,7 @@ type AlertInfo struct{
 var alertChan chan AlertInfo
 
 func GetHistoryPageSize() int{
-	client, err := cms.NewClientWithAccessKey("cn-beijing", "LTAIgGtTQUwJOnYd", "JnWaCIC0wo2DpyozeEAp7vivibzAyu")
+	client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 	request := cms.CreateDescribeAlertHistoryListRequest()
 	request.Scheme = "https"
 	request.StartTime = "1571201532000"
