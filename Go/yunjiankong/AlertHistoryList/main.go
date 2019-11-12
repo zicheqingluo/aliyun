@@ -21,9 +21,7 @@ func main() {
 	
 		for rn,num := range *v.RuleName{
 			//bfb := fmt.Sprintf("%.2f%",)
-			fmt.Printf(" 报警规则：%v 数量：%d  百分比:%.2f",rn,num,float64(num)/float64(v.AlertNum)*float64(100))
-			fmt.Printf("%\n")
-
-		}
+			fmt.Printf(" 报警规则：%v 数量：%d  百分比:%.2f %%\n",rn,num,float64(num)/float64(v.AlertNum)*float64(100))
+				}
 	}
 }

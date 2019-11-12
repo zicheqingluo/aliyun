@@ -18,8 +18,8 @@ func GetHistoryPageSize() int{
 	client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 	request := cms.CreateDescribeAlertHistoryListRequest()
 	request.Scheme = "https"
-	request.StartTime = "1567267200000"
-	request.EndTime = "1569859200000"
+	request.StartTime = "1572501834000"
+	request.EndTime = "1573106634000"
 	//request.EndTime = "1571287932000"
 	request.PageSize = requests.NewInteger(1)
 	
@@ -51,8 +51,8 @@ func GetHistoryData(pageSize int) {
 		client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
 		request := cms.CreateDescribeAlertHistoryListRequest()
 		request.Scheme = "https"
-		request.StartTime = "1567267200000"
-		request.EndTime = "1569859200000"
+		request.StartTime = "1572501834000"
+		request.EndTime = "1573106634000"
 		//request.EndTime = "1571287932000"
 		request.Page = requests.NewInteger(i)
 		request.PageSize = requests.NewInteger(100)
