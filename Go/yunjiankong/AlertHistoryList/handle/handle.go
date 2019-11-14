@@ -43,17 +43,18 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 		v, ok := data[namespace]  //是否存在产品名称
 		if ok{
 			v.AlertNumSum ++   //产品报警数量
-			ruleC := *v.RuleName  //报警规则map
-			_,ok := ruleC[rulename]  //是否存在这个报警规则
+			// ruleC := *v.RuleName  //报警规则map
+			// _,ok := ruleC[rulename]  //是否存在这个报警规则
+			_,ok :=(*v.RuleName)[rulename]
 			if ok{
-				ruleC[rulename].AlertNum++  //
+				(*v.RuleName)[rulename].AlertNum++  //
 			}else {
-				ruleC[rulename]=h1
+				(*v.RuleName)[rulename]=h1
 			}
 			if va.Status == 2{
-				ruleC[rulename].InstanceNameList=append(ruleC[rulename].InstanceNameList,va.InstanceName)
+				(*v.RuleName)[rulename].InstanceNameList=append((*v.RuleName)[rulename].InstanceNameList,va.InstanceName)
 			}
-			v.RuleName = &ruleC
+			//v.RuleName = &ruleC
 			data[namespace] = v	
 		}else {
 			data[namespace] = d1

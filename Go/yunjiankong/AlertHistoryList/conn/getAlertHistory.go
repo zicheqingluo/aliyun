@@ -72,7 +72,7 @@ func GetHistoryData(region,ak,as,st,et string,pageSize int) {
 		rulename := va.RuleName   //报警规则
 		status := va.Status  	//报警状态0为报警或恢复 2为通道沉默
 		instanceName := va.InstanceName
-		fmt.Printf("状态：%d  实例：%s\n",status,instanceName)
+		//fmt.Printf("状态：%d  实例：%s\n",status,instanceName)
 
 
 		ac := AlertInfo{
