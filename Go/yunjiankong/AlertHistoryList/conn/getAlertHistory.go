@@ -10,16 +10,18 @@ import (
 type AlertInfo struct{
 	Namespace	string
 	RuleName	string
+	Status		int
+	InstanceName	string
 }
 
 var alertChan chan AlertInfo
 
-func GetHistoryPageSize() int{
-	client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
+func GetHistoryPageSize(region,ak,as,st,et string) int{
+	client, err := cms.NewClientWithAccessKey(region,ak,as)
 	request := cms.CreateDescribeAlertHistoryListRequest()
 	request.Scheme = "https"
-	request.StartTime = "1572501834000"
-	request.EndTime = "1573106634000"
+	request.StartTime = st
+	request.EndTime = et
 	//request.EndTime = "1571287932000"
 	request.PageSize = requests.NewInteger(1)
 	
@@ -44,15 +46,15 @@ func GetHistoryPageSize() int{
 	  
 }
 
-func GetHistoryData(pageSize int) {
+func GetHistoryData(region,ak,as,st,et string,pageSize int) {
 
 	defer close(alertChan)
 	for i:=1;i<=pageSize;i++ {
-		client, err := cms.NewClientWithAccessKey("cn-beijing", "", "")
+		client, err := cms.NewClientWithAccessKey(region,ak,as)
 		request := cms.CreateDescribeAlertHistoryListRequest()
 		request.Scheme = "https"
-		request.StartTime = "1572501834000"
-		request.EndTime = "1573106634000"
+		request.StartTime = st
+		request.EndTime = et
 		//request.EndTime = "1571287932000"
 		request.Page = requests.NewInteger(i)
 		request.PageSize = requests.NewInteger(100)
@@ -67,10 +69,17 @@ func GetHistoryData(pageSize int) {
 		for _,va := range response.AlarmHistoryList.AlarmHistory {
 
 		namespace := va.Namespace   //产品名称
-		rulename := va.RuleName   //报警规
+		rulename := va.RuleName   //报警规则
+		status := va.Status  	//报警状态0为报警或恢复 2为通道沉默
+		instanceName := va.InstanceName
+		fmt.Printf("状态：%d  实例：%s\n",status,instanceName)
+
+
 		ac := AlertInfo{
 			Namespace:namespace,
 			RuleName:rulename,
+			Status:status,
+			InstanceName:instanceName,
 		}
 
 		alertChan <- ac
