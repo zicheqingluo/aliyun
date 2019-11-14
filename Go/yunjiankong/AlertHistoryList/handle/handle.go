@@ -7,7 +7,7 @@ import (
 
 type projectInfo struct {
 	AlertNumSum	int
-	RuleName	*map[string]*historyList
+	RuleName	map[string]*historyList
 }
 
 type historyList struct {
@@ -36,7 +36,7 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 		ruleCount[rulename] = h1
 		d1 = projectInfo{
 			AlertNumSum: 1,
-			RuleName: &ruleCount,
+			RuleName: ruleCount,
 		}
 		
 		
@@ -45,14 +45,14 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 			v.AlertNumSum ++   //产品报警数量
 			// ruleC := *v.RuleName  //报警规则map
 			// _,ok := ruleC[rulename]  //是否存在这个报警规则
-			_,ok :=(*v.RuleName)[rulename]
+			_,ok :=v.RuleName[rulename]
 			if ok{
-				(*v.RuleName)[rulename].AlertNum++  //
+				v.RuleName[rulename].AlertNum++  //
 			}else {
-				(*v.RuleName)[rulename]=h1
+				v.RuleName[rulename]=h1
 			}
-			if va.Status == 2{
-				(*v.RuleName)[rulename].InstanceNameList=append((*v.RuleName)[rulename].InstanceNameList,va.InstanceName)
+			if va.Status == 0{
+				v.RuleName[rulename].InstanceNameList=append(v.RuleName[rulename].InstanceNameList,va.InstanceName)
 			}
 			//v.RuleName = &ruleC
 			data[namespace] = v	

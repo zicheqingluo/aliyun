@@ -35,7 +35,7 @@ func main() {
 		fmt.Printf("产品:%v 报警总数：%d\n ",k,v.AlertNumSum)
 
 	
-		for rn,num := range *v.RuleName{
+		for rn,num := range v.RuleName{
 			//bfb := fmt.Sprintf("%.2f%",)
 			fmt.Printf(" 报警规则：%v 数量：%d  百分比:%.2f %%\n",rn,num.AlertNum,float64(num.AlertNum)/float64(v.AlertNumSum)*float64(100))
 			//fmt.Println(num.InstanceNameList)
