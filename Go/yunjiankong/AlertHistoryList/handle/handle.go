@@ -51,7 +51,7 @@ func DataRecv(newChan chan  conn.AlertInfo) map[string]projectInfo {
 			}else {
 				v.RuleName[rulename]=h1
 			}
-			if va.Status == 0{
+			if va.Status != 0{
 				v.RuleName[rulename].InstanceNameList=append(v.RuleName[rulename].InstanceNameList,va.InstanceName)
 			}
 			//v.RuleName = &ruleC
