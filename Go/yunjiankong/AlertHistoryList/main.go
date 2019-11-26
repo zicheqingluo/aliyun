@@ -4,15 +4,11 @@ package main
 import (
 	"fmt"
 	"aliyun/Go/yunjiankong/AlertHistoryList/conn"
-	"aliyun/Go/yunjiankong/AlertHistoryList/conf"
 	"aliyun/Go/yunjiankong/AlertHistoryList/handle"
-	"gopkg.in/ini.v1"
-	"flag"
+	"aliyun/Go/yunjiankong/AlertHistoryList/utils"
+	
 )
 
-var (
-	cfg = new(conf.AppConf)
-)
 
 
 
@@ -21,22 +17,19 @@ var (
 func main() {
 	
 	//1 加载配置文件
-	//1.1获取配置文件路径
-	confName := flag.String("conf","./conf/config.ini","文件路径")
-	flag.Parse()
-	err := ini.MapTo(cfg, *confName)
-	if err != nil {
-		fmt.Println("读取配置文件失败", err)
-		return
-	}
+	cfg := utils.GetConfig()
+	st := utils.GetUnixTimestamp(cfg.Parameter.StartTime)
+	et := utils.GetUnixTimestamp(cfg.Parameter.EndTime)
+
 	//2 查询报警总数
-	pg := conn.GetHistoryPageSize(cfg.AliyunConf.RegionId,cfg.AliyunConf.AccessKeyId,cfg.AliyunConf.AccessSecret,cfg.Parameter.StartTime,cfg.Parameter.EndTime)
+	pg := conn.GetHistoryPageSize(cfg.AliyunConf.RegionId,cfg.AliyunConf.AccessKeyId,cfg.AliyunConf.AccessSecret,st,et)
 	//3 获取报警详情
 	newChan := conn.NewChan()
-	go conn.GetHistoryData(cfg.AliyunConf.RegionId,cfg.AliyunConf.AccessKeyId,cfg.AliyunConf.AccessSecret,cfg.Parameter.StartTime,cfg.Parameter.EndTime,pg)
+	go conn.GetHistoryData(cfg.AliyunConf.RegionId,cfg.AliyunConf.AccessKeyId,cfg.AliyunConf.AccessSecret,st,et,pg)
 	//4 接收报警并格式化
 	data:=handle.DataRecv(newChan)
 	for k,v := range data{
+		fmt.Printf("###############################################################\n")
 		fmt.Printf("产品:%v 报警总数：%d \n",k,v.AlertNumSum)
 		for rn,num := range v.RuleName{
 			//bfb := fmt.Sprintf("%.2f%",)
