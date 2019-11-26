@@ -29,7 +29,7 @@ var cfg = new(conf.AppConf)
 func GetUnixTimestamp(timeStr string) (timestamp string){
 	p, _ := time.Parse("2006-01-02 15:04:05",timeStr )
 	timestamp = strconv.Itoa(int(p.Unix()*1000)) 
-	fmt.Println("时间戳",timestamp)
+	//fmt.Println("时间戳",timestamp)
 	
 	return
 

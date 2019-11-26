@@ -35,6 +35,7 @@ func main() {
 			//bfb := fmt.Sprintf("%.2f%",)
 			fmt.Printf("报警规则：%v 数量：%d  百分比:%.2f %%\n",rn,num.AlertNum,float64(num.AlertNum)/float64(v.AlertNumSum)*float64(100))
 			fmt.Println("通道沉默实例详情：",num.InstanceNameList)
+			fmt.Println("")
 		}
 	}
 }
